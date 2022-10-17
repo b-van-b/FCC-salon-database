@@ -1,9 +1,9 @@
 #!/bin/bash
 # Script to manage salon database
 
+## Definitions
 PSQL="psql --username=freecodecamp --dbname=salon --tuples-only -c"
 
-echo -e "\n~~~~~ MY SALON ~~~~~\n"
 
 MAIN_MENU() {
   ## display message passed to function
@@ -23,6 +23,7 @@ MAIN_MENU() {
   then
     # go to start
     MAIN_MENU "\nSorry, please enter a number."
+    return
   fi
   # get service from table
   DESIRED_SERVICE_NAME="$($PSQL "SELECT name FROM services WHERE service_id=$SERVICE_ID_SELECTED")"
@@ -31,6 +32,7 @@ MAIN_MENU() {
   then
     # go to start
     MAIN_MENU "\nSorry, that is not in the range of available services."
+    return
   fi
 
   ## identify customer
@@ -68,4 +70,7 @@ MAIN_MENU() {
   echo -e "\nI have put you down for a $TRIMMED_SERVICE at $SERVICE_TIME, $TRIMMED_CUSTOMER."
 }
 
-MAIN_MENU "Welcome to My Salon, how can I help you?"
+## Start running the script
+echo -e "\n~~~~~ MY SALON ~~~~~\n"
+echo -e "Welcome to My Salon, how can I help you?\n"
+MAIN_MENU
